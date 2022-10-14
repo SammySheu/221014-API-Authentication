@@ -1,0 +1,16 @@
+使用方法
+
+1.	curl -X POST http://127.0.0.1:3000/api/login
+	可取得token. 此token可視為：當一個使用者登入時，其登入資訊經加密後得到一個token. 寫法為：
+	jet.sign( {data}, 'secretKey', (err, token) => {
+		//此變數token即為加密後的字串
+		//data為使用者的登入資訊
+	})
+
+2.	在postman中發出一個post request, 會先經過verifyToken方程式，再執行後面的middleware function。verifyToken大意為：擷取其中req.header的'authorization' property. 但因authorization format 為 Bearer <token>.
+因此需用array.split將<token>擷取出來.
+
+3.	jwt的驗證方式為：
+	jwt.verify(req.token, 'secretKey', (err, authData) => {
+		//authData為加密資訊，須經json轉換
+	})
